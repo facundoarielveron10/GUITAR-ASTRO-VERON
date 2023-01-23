@@ -3,7 +3,7 @@ import { formatearFecha } from '../../helpers';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
-    const url = `${import.meta.env.PUBLIC_API_URL}/blog?populate=imagen`;
+    const url = `${import.meta.env.SECRET_API_URL}/blog?populate=imagen`;
     const respuesta = await fetch(url);
     const { data } = await respuesta.json();
     return data.map((post) => ({

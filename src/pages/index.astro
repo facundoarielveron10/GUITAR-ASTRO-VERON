@@ -5,10 +5,10 @@ import Curso from '../components/Curso.astro';
 import Post from '../components/Post.astro';
 
 const urlGuitarras = `${
-    import.meta.env.PUBLIC_API_URL
+    import.meta.env.SECRET_API_URL
 }/guitarras?populate=imagen`;
-const urlBlog = `${import.meta.env.PUBLIC_API_URL}/blog?populate=imagen`;
-const urlCurso = `${import.meta.env.PUBLIC_API_URL}/curso?populate=imagen`;
+const urlBlog = `${import.meta.env.SECRET_API_URL}/blog?populate=imagen`;
+const urlCurso = `${import.meta.env.SECRET_API_URL}/curso?populate=imagen`;
 
 const [resGuitarras, resBlog, resCurso] = await Promise.all([
     fetch(urlGuitarras),

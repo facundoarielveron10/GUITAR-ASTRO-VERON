@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Post from '../components/Post.astro';
 
-const datos = `${import.meta.env.PUBLIC_API_URL}/blog?populate=imagen`;
+const datos = `${import.meta.env.SECRET_API_URL}/blog?populate=imagen`;
 const respuesta = await fetch(datos);
 const { data } = await respuesta.json();
 ---
