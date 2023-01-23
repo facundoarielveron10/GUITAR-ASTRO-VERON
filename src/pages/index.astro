@@ -1,5 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Guitarra from '../components/Guitarra.astro';
+import Curso from '../components/Curso.astro';
+import Post from '../components/Post.astro';
+
+const urlGuitarras = `${
+    import.meta.env.PUBLIC_API_URL
+}/guitarras?populate=imagen`;
+const urlBlog = `${import.meta.env.PUBLIC_API_URL}/blog?populate=imagen`;
+const urlCurso = `${import.meta.env.PUBLIC_API_URL}/curso?populate=imagen`;
+
+const [resGuitarras, resBlog, resCurso] = await Promise.all([
+    fetch(urlGuitarras),
+    fetch(urlBlog),
+    fetch(urlCurso),
+]);
+const [{ data: guitarras }, { data: posts }, { data: curso }] =
+    await Promise.all([resGuitarras.json(), resBlog.json(), resCurso.json()]);
 ---
 
 <Layout
@@ -8,7 +25,52 @@ import Layout from '../layouts/Layout.astro';
 >
     <main class="contenedor">
         <h1 class="heading">Inicio</h1>
+
+        <h2 class="heading">Nuestra Coleccion</h2>
+        <div class="grid">
+            {
+                guitarras?.map((guitarra) => (
+                    <Guitarra
+                        nombre={guitarra.attributes.nombre}
+                        descripcion={guitarra.attributes.descripcion}
+                        precio={guitarra.attributes.precio}
+                        imagen={
+                            guitarra.attributes.imagen.data.attributes.formats
+                                .medium.url
+                        }
+                        url={guitarra.attributes.url}
+                    />
+                ))
+            }
+        </div>
     </main>
+
+    <Curso
+        titulo={curso.attributes.titulo}
+        contenido={curso.attributes.contenido}
+        imagen={curso.attributes.imagen.data.attributes.url}
+    />
+
+    <section class="contenedor">
+        <h2 class="heading">Blog</h2>
+
+        <div class="grid">
+            {
+                posts?.map((post) => (
+                    <Post
+                        titulo={post.attributes.titulo}
+                        contenido={post.attributes.contenido}
+                        imagen={
+                            post.attributes.imagen.data.attributes.formats
+                                .medium.url
+                        }
+                        url={post.attributes.url}
+                        publishedAt={post.attributes.publishedAt}
+                    />
+                ))
+            }
+        </div>
+    </section>
 </Layout>
 
 <style></style>
